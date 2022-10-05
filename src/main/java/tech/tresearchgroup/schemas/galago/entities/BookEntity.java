@@ -5,24 +5,24 @@ import io.activej.serializer.annotations.Deserialize;
 import io.activej.serializer.annotations.Serialize;
 import io.activej.serializer.annotations.SerializeClass;
 import io.activej.serializer.annotations.SerializeNullable;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import tech.tresearchgroup.palila.model.BasicFormObject;
 import tech.tresearchgroup.palila.model.BasicObjectInterface;
+import tech.tresearchgroup.palila.model.LockType;
 import tech.tresearchgroup.schemas.galago.IntIgnoreZeroAdapter;
 import tech.tresearchgroup.schemas.galago.ListIgnoreEmptyAdapter;
 
 import java.util.Date;
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-public class BookEntity implements BasicObjectInterface {
+public class BookEntity extends BasicFormObject implements BasicObjectInterface {
+
     private transient Date created;
 
     private transient Date updated;
 
     private Long id;
 
+    private LockType lockType;
     private ImageEntity poster;
 
     @JsonAdapter(ListIgnoreEmptyAdapter.class)
@@ -43,9 +43,13 @@ public class BookEntity implements BasicObjectInterface {
 
     private Long views;
 
+    public BookEntity() {
+    }
+
     public BookEntity(@Deserialize("created") Date created,
                       @Deserialize("updated") Date updated,
                       @Deserialize("id") Long id,
+                      @Deserialize("lockType") LockType lockType,
                       @Deserialize("poster") ImageEntity poster,
                       @Deserialize("otherImages") List<ImageEntity> otherImages,
                       @Deserialize("title") String title,
@@ -57,6 +61,7 @@ public class BookEntity implements BasicObjectInterface {
         this.created = created;
         this.updated = updated;
         this.id = id;
+        this.lockType = lockType;
         this.poster = poster;
         this.otherImages = otherImages;
         this.title = title;
@@ -86,48 +91,106 @@ public class BookEntity implements BasicObjectInterface {
     }
 
     @Serialize(order = 3)
+    @SerializeNullable
+    public LockType getLockType() {
+        return lockType;
+    }
+
+    @Serialize(order = 4)
     public ImageEntity getPoster() {
         return poster;
     }
 
-    @Serialize(order = 4)
+    @Serialize(order = 5)
     @SerializeNullable
     public List<ImageEntity> getOtherImages() {
         return otherImages;
     }
 
-    @Serialize(order = 5)
+    @Serialize(order = 6)
     @SerializeNullable
     public String getTitle() {
         return title;
     }
 
-    @Serialize(order = 6)
+    @Serialize(order = 7)
     @SerializeNullable
     public String getDescription() {
         return description;
     }
 
-    @Serialize(order = 7)
+    @Serialize(order = 8)
     @SerializeNullable
     public List<FileEntity> getFiles() {
         return files;
     }
 
-    @Serialize(order = 8)
+    @Serialize(order = 9)
     public int getPageCount() {
         return pageCount;
     }
 
-    @Serialize(order = 9)
+    @Serialize(order = 10)
     @SerializeNullable
     public List<PersonEntity> getAuthors() {
         return authors;
     }
 
-    @Serialize(order = 10)
+    @Serialize(order = 11)
     @SerializeNullable
     public Long getViews() {
         return views;
+    }
+
+    @Override
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    @Override
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public void setLockType(LockType lockType) {
+        this.lockType = lockType;
+    }
+
+    public void setPoster(ImageEntity poster) {
+        this.poster = poster;
+    }
+
+    public void setOtherImages(List<ImageEntity> otherImages) {
+        this.otherImages = otherImages;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setFiles(List<FileEntity> files) {
+        this.files = files;
+    }
+
+    public void setPageCount(int pageCount) {
+        this.pageCount = pageCount;
+    }
+
+    public void setAuthors(List<PersonEntity> authors) {
+        this.authors = authors;
+    }
+
+    public void setViews(Long views) {
+        this.views = views;
     }
 }

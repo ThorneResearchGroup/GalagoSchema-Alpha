@@ -6,7 +6,7 @@
 
     <groupId>tech.tresearchgroup.schemas</groupId>
     <artifactId>galago</artifactId>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.7.3-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -38,19 +38,13 @@
         <dependency>
             <groupId>tech.tresearchgroup.palila</groupId>
             <artifactId>palila</artifactId>
-            <version>1.6-SNAPSHOT</version>
+            <version>1.6.9-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.9.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.activej</groupId>

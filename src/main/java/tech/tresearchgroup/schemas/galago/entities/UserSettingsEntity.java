@@ -4,10 +4,9 @@ import com.google.gson.annotations.JsonAdapter;
 import io.activej.serializer.annotations.Deserialize;
 import io.activej.serializer.annotations.Serialize;
 import io.activej.serializer.annotations.SerializeNullable;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import tech.tresearchgroup.palila.model.BasicFormObject;
 import tech.tresearchgroup.palila.model.BasicObjectInterface;
+import tech.tresearchgroup.palila.model.LockType;
 import tech.tresearchgroup.schemas.galago.IntIgnoreZeroAdapter;
 import tech.tresearchgroup.schemas.galago.enums.DisplayModeEnum;
 import tech.tresearchgroup.schemas.galago.enums.InterfaceMethodEnum;
@@ -15,15 +14,15 @@ import tech.tresearchgroup.schemas.galago.enums.PlaybackQualityEnum;
 
 import java.util.Date;
 
-@Setter
-@NoArgsConstructor
-public class UserSettingsEntity implements BasicObjectInterface {
+public class UserSettingsEntity extends BasicFormObject implements BasicObjectInterface {
+
     private transient Date created;
 
     private transient Date updated;
 
     private Long id;
 
+    private LockType lockType;
     private InterfaceMethodEnum interfaceMethod;
 
     private PlaybackQualityEnum defaultPlaybackQuality;
@@ -75,20 +74,17 @@ public class UserSettingsEntity implements BasicObjectInterface {
     private int maxBrowseResults;
 
     @JsonAdapter(IntIgnoreZeroAdapter.class)
-    private int fontSize;
-
-    private String fontType;
-
-    private String fontColor;
-
-    @JsonAdapter(IntIgnoreZeroAdapter.class)
     private int cardWidth;
 
     private boolean stickyTopMenu;
 
+    public UserSettingsEntity() {
+    }
+
     public UserSettingsEntity(@Deserialize("created") Date created,
                               @Deserialize("updated") Date updated,
                               @Deserialize("id") Long id,
+                              @Deserialize("lockType") LockType lockType,
                               @Deserialize("interfaceMethod") InterfaceMethodEnum interfaceMethod,
                               @Deserialize("defaultPlaybackQuality") PlaybackQualityEnum defaultPlaybackQuality,
                               @Deserialize("displayMode") DisplayModeEnum displayMode,
@@ -113,14 +109,12 @@ public class UserSettingsEntity implements BasicObjectInterface {
                               @Deserialize("homePageShowPopularMusic") boolean homePageShowPopularMusic,
                               @Deserialize("maxSearchResults") int maxSearchResults,
                               @Deserialize("maxBrowseResults") int maxBrowseResults,
-                              @Deserialize("fontSize") int fontSize,
-                              @Deserialize("fontType") String fontType,
-                              @Deserialize("fontColor") String fontColor,
                               @Deserialize("cardWidth") int cardWidth,
                               @Deserialize("stickyTopMenu") boolean stickyTopMenu) {
         this.created = created;
         this.updated = updated;
         this.id = id;
+        this.lockType = lockType;
         this.interfaceMethod = interfaceMethod;
         this.defaultPlaybackQuality = defaultPlaybackQuality;
         this.displayMode = displayMode;
@@ -145,9 +139,6 @@ public class UserSettingsEntity implements BasicObjectInterface {
         this.homePageShowPopularMusic = homePageShowPopularMusic;
         this.maxSearchResults = maxSearchResults;
         this.maxBrowseResults = maxBrowseResults;
-        this.fontSize = fontSize;
-        this.fontType = fontType;
-        this.fontColor = fontColor;
         this.cardWidth = cardWidth;
         this.stickyTopMenu = stickyTopMenu;
     }
@@ -176,9 +167,6 @@ public class UserSettingsEntity implements BasicObjectInterface {
                               boolean homePageShowPopularMusic,
                               int maxSearchResults,
                               int maxBrowseResults,
-                              int fontSize,
-                              String fontType,
-                              String fontColor,
                               int cardWidth,
                               boolean stickyTopMenu) {
         this.interfaceMethod = interfaceMethod;
@@ -205,9 +193,6 @@ public class UserSettingsEntity implements BasicObjectInterface {
         this.homePageShowPopularMusic = homePageShowPopularMusic;
         this.maxSearchResults = maxSearchResults;
         this.maxBrowseResults = maxBrowseResults;
-        this.fontSize = fontSize;
-        this.fontType = fontType;
-        this.fontColor = fontColor;
         this.cardWidth = cardWidth;
         this.stickyTopMenu = stickyTopMenu;
     }
@@ -232,151 +217,264 @@ public class UserSettingsEntity implements BasicObjectInterface {
 
     @Serialize(order = 3)
     @SerializeNullable
+    public LockType getLockType() {
+        return lockType;
+    }
+
+    @Serialize(order = 4)
+    @SerializeNullable
     public InterfaceMethodEnum getInterfaceMethod() {
         return interfaceMethod;
     }
 
-    @Serialize(order = 4)
+    @Serialize(order = 5)
     @SerializeNullable
     public PlaybackQualityEnum getDefaultPlaybackQuality() {
         return defaultPlaybackQuality;
     }
 
-    @Serialize(order = 5)
+    @Serialize(order = 6)
     @SerializeNullable
     public DisplayModeEnum getDisplayMode() {
         return displayMode;
     }
 
-    @Serialize(order = 6)
+    @Serialize(order = 7)
     public boolean isTableShowPoster() {
         return tableShowPoster;
     }
 
-    @Serialize(order = 7)
+    @Serialize(order = 8)
     public boolean isTableShowName() {
         return tableShowName;
     }
 
-    @Serialize(order = 8)
+    @Serialize(order = 9)
     public boolean isTableShowRuntime() {
         return tableShowRuntime;
     }
 
-    @Serialize(order = 9)
+    @Serialize(order = 10)
     public boolean isTableShowGenre() {
         return tableShowGenre;
     }
 
-    @Serialize(order = 10)
+    @Serialize(order = 11)
     public boolean isTableShowMpaaRating() {
         return tableShowMpaaRating;
     }
 
-    @Serialize(order = 11)
+    @Serialize(order = 12)
     public boolean isTableShowUserRating() {
         return tableShowUserRating;
     }
 
-    @Serialize(order = 12)
+    @Serialize(order = 13)
     public boolean isTableShowLanguage() {
         return tableShowLanguage;
     }
 
-    @Serialize(order = 13)
+    @Serialize(order = 14)
     public boolean isTableShowReleaseDate() {
         return tableShowReleaseDate;
     }
 
-    @Serialize(order = 14)
+    @Serialize(order = 15)
     public boolean isTableShowActions() {
         return tableShowActions;
     }
 
-    @Serialize(order = 15)
+    @Serialize(order = 16)
     public boolean isHomePageShowNewMovie() {
         return homePageShowNewMovie;
     }
 
-    @Serialize(order = 16)
+    @Serialize(order = 17)
     public boolean isHomePageShowNewTvShow() {
         return homePageShowNewTvShow;
     }
 
-    @Serialize(order = 17)
+    @Serialize(order = 18)
     public boolean isHomePageShowNewGame() {
         return homePageShowNewGame;
     }
 
-    @Serialize(order = 18)
+    @Serialize(order = 19)
     public boolean isHomePageShowNewBook() {
         return homePageShowNewBook;
     }
 
-    @Serialize(order = 19)
+    @Serialize(order = 20)
     public boolean isHomePageShowNewMusic() {
         return homePageShowNewMusic;
     }
 
-    @Serialize(order = 20)
+    @Serialize(order = 21)
     public boolean isHomePageShowPopularMovie() {
         return homePageShowPopularMovie;
     }
 
-    @Serialize(order = 21)
+    @Serialize(order = 22)
     public boolean isHomePageShowPopularTvShow() {
         return homePageShowPopularTvShow;
     }
 
-    @Serialize(order = 22)
+    @Serialize(order = 23)
     public boolean isHomePageShowPopularGame() {
         return homePageShowPopularGame;
     }
 
-    @Serialize(order = 23)
+    @Serialize(order = 24)
     public boolean isHomePageShowPopularBook() {
         return homePageShowPopularBook;
     }
 
-    @Serialize(order = 24)
+    @Serialize(order = 25)
     public boolean isHomePageShowPopularMusic() {
         return homePageShowPopularMusic;
     }
 
-    @Serialize(order = 25)
+    @Serialize(order = 26)
     public int getMaxSearchResults() {
         return maxSearchResults;
     }
 
-    @Serialize(order = 26)
+    @Serialize(order = 27)
     public int getMaxBrowseResults() {
         return maxBrowseResults;
     }
 
-    @Serialize(order = 27)
-    public int getFontSize() {
-        return fontSize;
-    }
-
     @Serialize(order = 28)
-    @SerializeNullable
-    public String getFontType() {
-        return fontType;
-    }
-
-    @Serialize(order = 29)
-    @SerializeNullable
-    public String getFontColor() {
-        return fontColor;
-    }
-
-    @Serialize(order = 30)
     public int getCardWidth() {
         return cardWidth;
     }
 
-    @Serialize(order = 31)
+    @Serialize(order = 29)
     public boolean isStickyTopMenu() {
         return stickyTopMenu;
+    }
+
+    @Override
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    @Override
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public void setLockType(LockType lockType) {
+        this.lockType = lockType;
+    }
+
+    public void setInterfaceMethod(InterfaceMethodEnum interfaceMethod) {
+        this.interfaceMethod = interfaceMethod;
+    }
+
+    public void setDefaultPlaybackQuality(PlaybackQualityEnum defaultPlaybackQuality) {
+        this.defaultPlaybackQuality = defaultPlaybackQuality;
+    }
+
+    public void setDisplayMode(DisplayModeEnum displayMode) {
+        this.displayMode = displayMode;
+    }
+
+    public void setTableShowPoster(boolean tableShowPoster) {
+        this.tableShowPoster = tableShowPoster;
+    }
+
+    public void setTableShowName(boolean tableShowName) {
+        this.tableShowName = tableShowName;
+    }
+
+    public void setTableShowRuntime(boolean tableShowRuntime) {
+        this.tableShowRuntime = tableShowRuntime;
+    }
+
+    public void setTableShowGenre(boolean tableShowGenre) {
+        this.tableShowGenre = tableShowGenre;
+    }
+
+    public void setTableShowMpaaRating(boolean tableShowMpaaRating) {
+        this.tableShowMpaaRating = tableShowMpaaRating;
+    }
+
+    public void setTableShowUserRating(boolean tableShowUserRating) {
+        this.tableShowUserRating = tableShowUserRating;
+    }
+
+    public void setTableShowLanguage(boolean tableShowLanguage) {
+        this.tableShowLanguage = tableShowLanguage;
+    }
+
+    public void setTableShowReleaseDate(boolean tableShowReleaseDate) {
+        this.tableShowReleaseDate = tableShowReleaseDate;
+    }
+
+    public void setTableShowActions(boolean tableShowActions) {
+        this.tableShowActions = tableShowActions;
+    }
+
+    public void setHomePageShowNewMovie(boolean homePageShowNewMovie) {
+        this.homePageShowNewMovie = homePageShowNewMovie;
+    }
+
+    public void setHomePageShowNewTvShow(boolean homePageShowNewTvShow) {
+        this.homePageShowNewTvShow = homePageShowNewTvShow;
+    }
+
+    public void setHomePageShowNewGame(boolean homePageShowNewGame) {
+        this.homePageShowNewGame = homePageShowNewGame;
+    }
+
+    public void setHomePageShowNewBook(boolean homePageShowNewBook) {
+        this.homePageShowNewBook = homePageShowNewBook;
+    }
+
+    public void setHomePageShowNewMusic(boolean homePageShowNewMusic) {
+        this.homePageShowNewMusic = homePageShowNewMusic;
+    }
+
+    public void setHomePageShowPopularMovie(boolean homePageShowPopularMovie) {
+        this.homePageShowPopularMovie = homePageShowPopularMovie;
+    }
+
+    public void setHomePageShowPopularTvShow(boolean homePageShowPopularTvShow) {
+        this.homePageShowPopularTvShow = homePageShowPopularTvShow;
+    }
+
+    public void setHomePageShowPopularGame(boolean homePageShowPopularGame) {
+        this.homePageShowPopularGame = homePageShowPopularGame;
+    }
+
+    public void setHomePageShowPopularBook(boolean homePageShowPopularBook) {
+        this.homePageShowPopularBook = homePageShowPopularBook;
+    }
+
+    public void setHomePageShowPopularMusic(boolean homePageShowPopularMusic) {
+        this.homePageShowPopularMusic = homePageShowPopularMusic;
+    }
+
+    public void setMaxSearchResults(int maxSearchResults) {
+        this.maxSearchResults = maxSearchResults;
+    }
+
+    public void setMaxBrowseResults(int maxBrowseResults) {
+        this.maxBrowseResults = maxBrowseResults;
+    }
+
+    public void setCardWidth(int cardWidth) {
+        this.cardWidth = cardWidth;
+    }
+
+    public void setStickyTopMenu(boolean stickyTopMenu) {
+        this.stickyTopMenu = stickyTopMenu;
     }
 }

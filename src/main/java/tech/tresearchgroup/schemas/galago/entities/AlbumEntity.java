@@ -5,24 +5,23 @@ import io.activej.serializer.annotations.Deserialize;
 import io.activej.serializer.annotations.Serialize;
 import io.activej.serializer.annotations.SerializeClass;
 import io.activej.serializer.annotations.SerializeNullable;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import tech.tresearchgroup.palila.model.BasicFormObject;
 import tech.tresearchgroup.palila.model.BasicObjectInterface;
+import tech.tresearchgroup.palila.model.LockType;
 import tech.tresearchgroup.schemas.galago.ListIgnoreEmptyAdapter;
 
 import java.util.Date;
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-public class AlbumEntity implements BasicObjectInterface {
+public class AlbumEntity extends BasicFormObject implements BasicObjectInterface {
+
     private transient Date created;
 
     private transient Date updated;
 
     private Long id;
 
+    private LockType lockType;
     private String name;
 
     private ImageEntity poster;
@@ -40,9 +39,13 @@ public class AlbumEntity implements BasicObjectInterface {
 
     private Long views;
 
+    public AlbumEntity() {
+    }
+
     public AlbumEntity(@Deserialize("created") Date created,
                        @Deserialize("updated") Date updated,
                        @Deserialize("id") Long id,
+                       @Deserialize("lockType") LockType lockType,
                        @Deserialize("name") String name,
                        @Deserialize("poster") ImageEntity poster,
                        @Deserialize("otherImages") List<ImageEntity> otherImages,
@@ -53,6 +56,7 @@ public class AlbumEntity implements BasicObjectInterface {
         this.created = created;
         this.updated = updated;
         this.id = id;
+        this.lockType = lockType;
         this.name = name;
         this.poster = poster;
         this.otherImages = otherImages;
@@ -82,43 +86,97 @@ public class AlbumEntity implements BasicObjectInterface {
 
     @Serialize(order = 3)
     @SerializeNullable
+    public LockType getLockType() {
+        return lockType;
+    }
+
+    @Serialize(order = 4)
+    @SerializeNullable
     public String getName() {
         return name;
     }
 
-    @Serialize(order = 4)
+    @Serialize(order = 5)
     @SerializeNullable
     public ImageEntity getPoster() {
         return poster;
     }
 
-    @Serialize(order = 5)
+    @Serialize(order = 6)
     @SerializeNullable
     public List<ImageEntity> getOtherImages() {
         return otherImages;
     }
 
-    @Serialize(order = 6)
+    @Serialize(order = 7)
     @SerializeNullable
     public String getReleaseDate() {
         return releaseDate;
     }
 
-    @Serialize(order = 7)
+    @Serialize(order = 8)
     @SerializeNullable
     public List<ArtistEntity> getArtists() {
         return artists;
     }
 
-    @Serialize(order = 8)
+    @Serialize(order = 9)
     @SerializeNullable
     public List<SongEntity> getSongs() {
         return songs;
     }
 
-    @Serialize(order = 9)
+    @Serialize(order = 10)
     @SerializeNullable
     public Long getViews() {
         return views;
+    }
+
+    @Override
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    @Override
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public void setLockType(LockType lockType) {
+        this.lockType = lockType;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPoster(ImageEntity poster) {
+        this.poster = poster;
+    }
+
+    public void setOtherImages(List<ImageEntity> otherImages) {
+        this.otherImages = otherImages;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setArtists(List<ArtistEntity> artists) {
+        this.artists = artists;
+    }
+
+    public void setSongs(List<SongEntity> songs) {
+        this.songs = songs;
+    }
+
+    public void setViews(Long views) {
+        this.views = views;
     }
 }
