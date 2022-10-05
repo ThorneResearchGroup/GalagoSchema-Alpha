@@ -5,9 +5,9 @@ import io.activej.serializer.annotations.Deserialize;
 import io.activej.serializer.annotations.Serialize;
 import io.activej.serializer.annotations.SerializeClass;
 import io.activej.serializer.annotations.SerializeNullable;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import tech.tresearchgroup.palila.model.BasicFormObject;
 import tech.tresearchgroup.palila.model.BasicObjectInterface;
+import tech.tresearchgroup.palila.model.LockType;
 import tech.tresearchgroup.schemas.galago.IntIgnoreZeroAdapter;
 import tech.tresearchgroup.schemas.galago.ListIgnoreEmptyAdapter;
 import tech.tresearchgroup.schemas.galago.LongIgnoreZeroAdapter;
@@ -18,19 +18,19 @@ import tech.tresearchgroup.schemas.galago.enums.MovieGenreEnum;
 import java.util.Date;
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-public class MovieEntity implements BasicObjectInterface {
+public class MovieEntity extends BasicFormObject implements BasicObjectInterface {
     private transient Date created;
 
     private transient Date updated;
 
     private Long id;
 
+    private LockType lockType;
+
     private String title;
 
     @JsonAdapter(ListIgnoreEmptyAdapter.class)
-    private List<FileEntity> files;
+    private List<VideoEntity> files;
 
     private ImageEntity primaryImage;
 
@@ -92,11 +92,15 @@ public class MovieEntity implements BasicObjectInterface {
     @JsonAdapter(LongIgnoreZeroAdapter.class)
     private Long views;
 
+    public MovieEntity() {
+    }
+
     public MovieEntity(@Deserialize("created") Date created,
                        @Deserialize("updated") Date updated,
                        @Deserialize("id") Long id,
+                       @Deserialize("lockType") LockType lockType,
                        @Deserialize("title") String title,
-                       @Deserialize("files") List<FileEntity> files,
+                       @Deserialize("files") List<VideoEntity> files,
                        @Deserialize("primaryImage") ImageEntity primaryImage,
                        @Deserialize("otherImages") List<ImageEntity> otherImages,
                        @Deserialize("trailer") VideoEntity trailer,
@@ -123,6 +127,7 @@ public class MovieEntity implements BasicObjectInterface {
         this.created = created;
         this.updated = updated;
         this.id = id;
+        this.lockType = lockType;
         this.title = title;
         this.files = files;
         this.primaryImage = primaryImage;
@@ -170,145 +175,271 @@ public class MovieEntity implements BasicObjectInterface {
 
     @Serialize(order = 3)
     @SerializeNullable
-    public String getTitle() {
-        return title;
+    public LockType getLockType() {
+        return lockType;
     }
 
     @Serialize(order = 4)
     @SerializeNullable
-    public List<@SerializeClass(subclassesId = "files") FileEntity> getFiles() {
-        return files;
+    public String getTitle() {
+        return title;
     }
 
     @Serialize(order = 5)
+    @SerializeNullable
+    public List<@SerializeClass(subclassesId = "files") VideoEntity> getFiles() {
+        return files;
+    }
+
+    @Serialize(order = 6)
     @SerializeNullable
     public ImageEntity getPrimaryImage() {
         return primaryImage;
     }
 
-    @Serialize(order = 6)
+    @Serialize(order = 7)
     @SerializeNullable
     public List<ImageEntity> getOtherImages() {
         return otherImages;
     }
 
-    @Serialize(order = 7)
+    @Serialize(order = 8)
     @SerializeNullable
     public VideoEntity getTrailer() {
         return trailer;
     }
 
-    @Serialize(order = 8)
+    @Serialize(order = 9)
     @SerializeNullable
     public List<VideoEntity> getOtherVideos() {
         return otherVideos;
     }
 
-    @Serialize(order = 9)
+    @Serialize(order = 10)
     @SerializeNullable
     public List<SubtitleEntity> getSubtitles() {
         return subtitles;
     }
 
-    @Serialize(order = 10)
+    @Serialize(order = 11)
     @SerializeNullable
     public String getReleaseDate() {
         return releaseDate;
     }
 
-    @Serialize(order = 11)
+    @Serialize(order = 12)
     public int getRuntime() {
         return runtime;
     }
 
-    @Serialize(order = 12)
+    @Serialize(order = 13)
     @SerializeNullable
     public MPAARatingEnum getMpaaRating() {
         return mpaaRating;
     }
 
-    @Serialize(order = 13)
+    @Serialize(order = 14)
     public int getUserRating() {
         return userRating;
     }
 
-    @Serialize(order = 14)
+    @Serialize(order = 15)
     @SerializeNullable
     public MovieGenreEnum getGenre() {
         return genre;
     }
 
-    @Serialize(order = 15)
+    @Serialize(order = 16)
     @SerializeNullable
     public List<PersonEntity> getDirectors() {
         return directors;
     }
 
-    @Serialize(order = 16)
+    @Serialize(order = 17)
     @SerializeNullable
     public List<PersonEntity> getWriters() {
         return writers;
     }
 
-    @Serialize(order = 17)
+    @Serialize(order = 18)
     @SerializeNullable
     public List<PersonEntity> getCast() {
         return cast;
     }
 
-    @Serialize(order = 18)
+    @Serialize(order = 19)
     @SerializeNullable
     public List<CompanyEntity> getProductionCompany() {
         return productionCompany;
     }
 
-    @Serialize(order = 19)
+    @Serialize(order = 20)
     @SerializeNullable
     public String getStoryLine() {
         return storyLine;
     }
 
-    @Serialize(order = 20)
+    @Serialize(order = 21)
     @SerializeNullable
     public String getLanguages() {
         return languages;
     }
 
-    @Serialize(order = 21)
+    @Serialize(order = 22)
     public int getBudget() {
         return budget;
     }
 
-    @Serialize(order = 22)
+    @Serialize(order = 23)
     public int getAmericasGross() {
         return americasGross;
     }
 
-    @Serialize(order = 23)
+    @Serialize(order = 24)
     public int getWorldWideGross() {
         return worldWideGross;
     }
 
-    @Serialize(order = 24)
+    @Serialize(order = 25)
     public int getAmericasOpeningWeekend() {
         return americasOpeningWeekend;
     }
 
-    @Serialize(order = 25)
+    @Serialize(order = 26)
     @SerializeNullable
     public String getAspectRatio() {
         return aspectRatio;
     }
 
-    @Serialize(order = 26)
+    @Serialize(order = 27)
     @SerializeNullable
     public CountryEnum getCountryOfOrigin() {
         return countryOfOrigin;
     }
 
-    @Serialize(order = 27)
+    @Serialize(order = 28)
     @SerializeNullable
     public Long getViews() {
         return views;
+    }
+
+    @Override
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    @Override
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public void setLockType(LockType lockType) {
+        this.lockType = lockType;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setFiles(List<VideoEntity> files) {
+        this.files = files;
+    }
+
+    public void setPrimaryImage(ImageEntity primaryImage) {
+        this.primaryImage = primaryImage;
+    }
+
+    public void setOtherImages(List<ImageEntity> otherImages) {
+        this.otherImages = otherImages;
+    }
+
+    public void setTrailer(VideoEntity trailer) {
+        this.trailer = trailer;
+    }
+
+    public void setOtherVideos(List<VideoEntity> otherVideos) {
+        this.otherVideos = otherVideos;
+    }
+
+    public void setSubtitles(List<SubtitleEntity> subtitles) {
+        this.subtitles = subtitles;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
+    }
+
+    public void setMpaaRating(MPAARatingEnum mpaaRating) {
+        this.mpaaRating = mpaaRating;
+    }
+
+    public void setUserRating(int userRating) {
+        this.userRating = userRating;
+    }
+
+    public void setGenre(MovieGenreEnum genre) {
+        this.genre = genre;
+    }
+
+    public void setDirectors(List<PersonEntity> directors) {
+        this.directors = directors;
+    }
+
+    public void setWriters(List<PersonEntity> writers) {
+        this.writers = writers;
+    }
+
+    public void setCast(List<PersonEntity> cast) {
+        this.cast = cast;
+    }
+
+    public void setProductionCompany(List<CompanyEntity> productionCompany) {
+        this.productionCompany = productionCompany;
+    }
+
+    public void setStoryLine(String storyLine) {
+        this.storyLine = storyLine;
+    }
+
+    public void setLanguages(String languages) {
+        this.languages = languages;
+    }
+
+    public void setBudget(int budget) {
+        this.budget = budget;
+    }
+
+    public void setAmericasGross(int americasGross) {
+        this.americasGross = americasGross;
+    }
+
+    public void setWorldWideGross(int worldWideGross) {
+        this.worldWideGross = worldWideGross;
+    }
+
+    public void setAmericasOpeningWeekend(int americasOpeningWeekend) {
+        this.americasOpeningWeekend = americasOpeningWeekend;
+    }
+
+    public void setAspectRatio(String aspectRatio) {
+        this.aspectRatio = aspectRatio;
+    }
+
+    public void setCountryOfOrigin(CountryEnum countryOfOrigin) {
+        this.countryOfOrigin = countryOfOrigin;
+    }
+
+    public void setViews(Long views) {
+        this.views = views;
     }
 }

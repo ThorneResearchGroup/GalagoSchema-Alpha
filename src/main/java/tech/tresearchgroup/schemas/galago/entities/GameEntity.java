@@ -5,9 +5,9 @@ import io.activej.serializer.annotations.Deserialize;
 import io.activej.serializer.annotations.Serialize;
 import io.activej.serializer.annotations.SerializeClass;
 import io.activej.serializer.annotations.SerializeNullable;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import tech.tresearchgroup.palila.model.BasicFormObject;
 import tech.tresearchgroup.palila.model.BasicObjectInterface;
+import tech.tresearchgroup.palila.model.LockType;
 import tech.tresearchgroup.schemas.galago.IntIgnoreZeroAdapter;
 import tech.tresearchgroup.schemas.galago.ListIgnoreEmptyAdapter;
 import tech.tresearchgroup.schemas.galago.enums.*;
@@ -15,15 +15,14 @@ import tech.tresearchgroup.schemas.galago.enums.*;
 import java.util.Date;
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-public class GameEntity implements BasicObjectInterface {
+public class GameEntity extends BasicFormObject implements BasicObjectInterface {
     private transient Date created;
 
     private transient Date updated;
 
     private Long id;
 
+    private LockType lockType;
     private String title;
 
     private String description;
@@ -80,9 +79,13 @@ public class GameEntity implements BasicObjectInterface {
 
     private Long views;
 
+    public GameEntity() {
+    }
+
     public GameEntity(@Deserialize("created") Date created,
                       @Deserialize("updated") Date updated,
                       @Deserialize("id") Long id,
+                      @Deserialize("lockType") LockType lockType,
                       @Deserialize("title") String title,
                       @Deserialize("description") String description,
                       @Deserialize("files") List<FileEntity> files,
@@ -108,6 +111,7 @@ public class GameEntity implements BasicObjectInterface {
         this.created = created;
         this.updated = updated;
         this.id = id;
+        this.lockType = lockType;
         this.title = title;
         this.description = description;
         this.files = files;
@@ -152,125 +156,239 @@ public class GameEntity implements BasicObjectInterface {
 
     @Serialize(order = 3)
     @SerializeNullable
+    public LockType getLockType() {
+        return lockType;
+    }
+
+    @Serialize(order = 4)
+    @SerializeNullable
     public String getTitle() {
         return title;
     }
 
-    @Serialize(order = 4)
+    @Serialize(order = 5)
     @SerializeNullable
     public String getDescription() {
         return description;
     }
 
-    @Serialize(order = 5)
+    @Serialize(order = 6)
     @SerializeNullable
     public List<FileEntity> getFiles() {
         return files;
     }
 
-    @Serialize(order = 6)
+    @Serialize(order = 7)
     public ImageEntity getPoster() {
         return poster;
     }
 
-    @Serialize(order = 7)
+    @Serialize(order = 8)
     @SerializeNullable
     public List<ImageEntity> getOtherImages() {
         return otherImages;
     }
 
-    @Serialize(order = 8)
+    @Serialize(order = 9)
     public VideoEntity getTrailer() {
         return trailer;
     }
 
-    @Serialize(order = 9)
+    @Serialize(order = 10)
     @SerializeNullable
     public List<VideoEntity> getOtherVideos() {
         return otherVideos;
     }
 
-    @Serialize(order = 10)
+    @Serialize(order = 11)
     @SerializeNullable
     public List<GameGenreEnum> getGenres() {
         return genres;
     }
 
-    @Serialize(order = 11)
+    @Serialize(order = 12)
     @SerializeNullable
     public ESRBRatingEnum getEsrbRating() {
         return esrbRating;
     }
 
-    @Serialize(order = 12)
+    @Serialize(order = 13)
     @SerializeNullable
     public List<GameContentWarningEnum> getContentWarnings() {
         return contentWarnings;
     }
 
-    @Serialize(order = 13)
+    @Serialize(order = 14)
     @SerializeNullable
     public List<GamePlatformEnum> getPlatforms() {
         return platforms;
     }
 
-    @Serialize(order = 14)
+    @Serialize(order = 15)
     @SerializeNullable
     public List<CompanyEntity> getDevelopers() {
         return developers;
     }
 
-    @Serialize(order = 15)
+    @Serialize(order = 16)
     @SerializeNullable
     public List<CompanyEntity> getPublishers() {
         return publishers;
     }
 
-    @Serialize(order = 16)
+    @Serialize(order = 17)
     @SerializeNullable
     public List<GameModeEnum> getGameModes() {
         return gameModes;
     }
 
-    @Serialize(order = 17)
+    @Serialize(order = 18)
     @SerializeNullable
     public GameSeriesEntity getGameSeries() {
         return gameSeries;
     }
 
-    @Serialize(order = 18)
+    @Serialize(order = 19)
     public GameEngineEntity getGameEngine() {
         return gameEngine;
     }
 
-    @Serialize(order = 19)
+    @Serialize(order = 20)
     @SerializeNullable
     public List<GamePlayerPerspectiveEnum> getGamePlayerPerspective() {
         return gamePlayerPerspective;
     }
 
-    @Serialize(order = 20)
+    @Serialize(order = 21)
     public int getGameUserRating() {
         return gameUserRating;
     }
 
-    @Serialize(order = 21)
+    @Serialize(order = 22)
     public boolean isInAppPurchases() {
         return inAppPurchases;
     }
 
-    @Serialize(order = 22)
+    @Serialize(order = 23)
     public boolean isMicroTransactions() {
         return microTransactions;
     }
 
-    @Serialize(order = 23)
+    @Serialize(order = 24)
     public int getExpectedCompletionTime() {
         return expectedCompletionTime;
     }
 
-    @Serialize(order = 24)
+    @Serialize(order = 25)
     public Long getViews() {
         return views;
+    }
+
+    @Override
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    @Override
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public void setLockType(LockType lockType) {
+        this.lockType = lockType;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setFiles(List<FileEntity> files) {
+        this.files = files;
+    }
+
+    public void setPoster(ImageEntity poster) {
+        this.poster = poster;
+    }
+
+    public void setOtherImages(List<ImageEntity> otherImages) {
+        this.otherImages = otherImages;
+    }
+
+    public void setTrailer(VideoEntity trailer) {
+        this.trailer = trailer;
+    }
+
+    public void setOtherVideos(List<VideoEntity> otherVideos) {
+        this.otherVideos = otherVideos;
+    }
+
+    public void setGenres(List<GameGenreEnum> genres) {
+        this.genres = genres;
+    }
+
+    public void setEsrbRating(ESRBRatingEnum esrbRating) {
+        this.esrbRating = esrbRating;
+    }
+
+    public void setContentWarnings(List<GameContentWarningEnum> contentWarnings) {
+        this.contentWarnings = contentWarnings;
+    }
+
+    public void setPlatforms(List<GamePlatformEnum> platforms) {
+        this.platforms = platforms;
+    }
+
+    public void setDevelopers(List<CompanyEntity> developers) {
+        this.developers = developers;
+    }
+
+    public void setPublishers(List<CompanyEntity> publishers) {
+        this.publishers = publishers;
+    }
+
+    public void setGameModes(List<GameModeEnum> gameModes) {
+        this.gameModes = gameModes;
+    }
+
+    public void setGameSeries(GameSeriesEntity gameSeries) {
+        this.gameSeries = gameSeries;
+    }
+
+    public void setGameEngine(GameEngineEntity gameEngine) {
+        this.gameEngine = gameEngine;
+    }
+
+    public void setGamePlayerPerspective(List<GamePlayerPerspectiveEnum> gamePlayerPerspective) {
+        this.gamePlayerPerspective = gamePlayerPerspective;
+    }
+
+    public void setGameUserRating(int gameUserRating) {
+        this.gameUserRating = gameUserRating;
+    }
+
+    public void setInAppPurchases(boolean inAppPurchases) {
+        this.inAppPurchases = inAppPurchases;
+    }
+
+    public void setMicroTransactions(boolean microTransactions) {
+        this.microTransactions = microTransactions;
+    }
+
+    public void setExpectedCompletionTime(int expectedCompletionTime) {
+        this.expectedCompletionTime = expectedCompletionTime;
+    }
+
+    public void setViews(Long views) {
+        this.views = views;
     }
 }
